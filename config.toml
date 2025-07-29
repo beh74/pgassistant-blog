@@ -30,10 +30,10 @@ defaultContentLanguage = "en"
   googleAnalytics = ""
 
 
-  editPost:
-    URL: "https://github.com/beh74/pgassistant-blog/tree/main/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+[params.editPost]
+  URL = "https://github.com/beh74/pgassistant-blog/tree/main/content"
+  Text = "Suggest Changes"
+  appendFilePath = true
 
 [[menu.main]]
   name = "Posts"
