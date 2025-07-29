@@ -6,8 +6,8 @@ theme = "PaperMod"
 pagination.pagerSize = 10
 defaultContentLanguage = "en"
 
-relativeURLs = true
-canonifyURLs = true
+#relativeURLs = true
+#canonifyURLs = true
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
