@@ -77,4 +77,4 @@ pgAssistant will show you the list of missing indexes on foreign keys and gives 
 
 You should notice that pgAssistant always use the SQL command : create index **CONCURRENTLY** myindex.
 
-If you wonder why, please take a look at 
+If you wonder why, please take a look at [this documentation](https://www.postgresql.org/docs/current/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY)
