@@ -10,15 +10,15 @@ description: "A PostgreSQL assistant for developers designed to help understand 
 - ✨ Open-source
 - 🐘 Built for PostgreSQL
 
-👉 Explore the [documentation](/doc), the [posts](/post/) or [GitHub repo](https://github.com/nexsol-technologies/pgassistant)
+👉 Explore the documentation, the posts or [GitHub repo](https://github.com/nexsol-technologies/pgassistant)
 
 👉If you are looking for good tools to work with postgres, you should have a look on [this](https://github.com/dhamaniasad/awesome-postgres)
 
 ## Before you begin
 
 Read this documentation :
-- [Enable pg_stat_statements](/doc/pg_stat_statments)
-- [Quick start with docker](/doc/startup_docker)
+- [Enable pg_stat_statements](doc/pg_stat_statments)
+- [Quick start with docker](doc/startup_docker)
 
 ## Complementary Tools for Working with pgAssistant
 
