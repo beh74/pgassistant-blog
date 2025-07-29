@@ -16,3 +16,23 @@ _site/
 # counterproductive to check this file into the repository.
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
+
+# Hugo build output
+/public/
+/resources/_gen/
+
+# Hugo cache
+hugo_stats.json
+
+# Node / local tool junk
+node_modules/
+.DS_Store
+*.swp
+
+# VSCode settings (optional)
+.vscode/
+
+# Ignore themes if submodule
+# (we track it separately via .gitmodules)
+themes/*/
+!themes/PaperMod
