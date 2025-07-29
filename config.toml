@@ -45,4 +45,9 @@ defaultContentLanguage = "en"
   url = "/doc/"
   weight = 1
 
+[[menu.main]]
+  name = "Search"
+  url = "search/"
+  weight = 1
+
 
