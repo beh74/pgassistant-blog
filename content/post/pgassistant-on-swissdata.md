@@ -63,11 +63,11 @@ services:
 
 Lets analyze this DDL with llama3 hosted by Infomaniak :
 
-![Analyze]("/pgassistant-blog/images/infomaniak_tabledef.webp")
+![Analyze](/pgassistant-blog/images/infomaniak_tabledef.webp)
 
 and here is the result :
 
-![Result]("/pgassistant-blog/images/infomaniak_tabledef.webp")
+![Result](/pgassistant-blog/images/infomaniak_tabledef.webp)
 
 ---
 
