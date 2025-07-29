@@ -10,7 +10,7 @@ defaultContentLanguage = "en"
 #canonifyURLs = true
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "SITEMAP"]
 
 [params]
   env = "production"
@@ -28,6 +28,12 @@ defaultContentLanguage = "en"
   defaultTheme = "auto"
   disableThemeToggle = false
   googleAnalytics = ""
+
+
+  editPost:
+    URL: "https://github.com/beh74/pgassistant-blog/tree/main/content"
+    Text: "Suggest Changes" # edit text
+    appendFilePath: true # to append file path to Edit link
 
 [[menu.main]]
   name = "Posts"
