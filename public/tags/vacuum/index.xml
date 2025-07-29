@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Vacuum on pgAssistant Blog</title>
+    <link>http://localhost:1313/tags/vacuum/</link>
+    <description>Recent content in Vacuum on pgAssistant Blog</description>
+    <generator>Hugo -- 0.149.0-DEV</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/vacuum/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PostgreSQL Autovacuum Tuning Based on Table Size</title>
+      <link>http://localhost:1313/post/vaccum/</link>
+      <pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/vaccum/</guid>
+      <description>&lt;h1 id=&#34;object&#34;&gt;Object&lt;/h1&gt;
+&lt;p&gt;This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized &lt;code&gt;autovacuum&lt;/code&gt; settings on a &lt;strong&gt;per-table basis&lt;/strong&gt;. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to &lt;strong&gt;table size&lt;/strong&gt; and &lt;strong&gt;usage patterns&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;goal&#34;&gt;Goal&lt;/h2&gt;
+&lt;p&gt;PostgreSQL uses &lt;code&gt;autovacuum&lt;/code&gt; to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

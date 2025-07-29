@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on pgAssistant Blog</title>
+    <link>http://localhost:1313/post/</link>
+    <description>Recent content in Posts on pgAssistant Blog</description>
+    <generator>Hugo -- 0.149.0-DEV</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PostgreSQL Autovacuum Tuning Based on Table Size</title>
+      <link>http://localhost:1313/post/vaccum/</link>
+      <pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/vaccum/</guid>
+      <description>&lt;h1 id=&#34;object&#34;&gt;Object&lt;/h1&gt;
+&lt;p&gt;This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized &lt;code&gt;autovacuum&lt;/code&gt; settings on a &lt;strong&gt;per-table basis&lt;/strong&gt;. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to &lt;strong&gt;table size&lt;/strong&gt; and &lt;strong&gt;usage patterns&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;goal&#34;&gt;Goal&lt;/h2&gt;
+&lt;p&gt;PostgreSQL uses &lt;code&gt;autovacuum&lt;/code&gt; to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Using pgAssistant with Infomaniak’s AI Cloud</title>
+      <link>http://localhost:1313/post/pgassistant-on-swissdata/</link>
+      <pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/pgassistant-on-swissdata/</guid>
+      <description>&lt;h1 id=&#34;privacy&#34;&gt;Privacy&lt;/h1&gt;
+&lt;p&gt;Data privacy is no longer a luxury — it’s a necessity.&lt;/p&gt;
+&lt;p&gt;Today, we’ll show you how to use pgAssistant with &lt;a href=&#34;https://swissdata.ai/en&#34;&gt;Infomaniak Cloud&lt;/a&gt; — Infomaniak&amp;rsquo;s privacy-focused, sovereign cloud solution based in Switzerland🇨.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;why-data-sovereignty-matters&#34;&gt;Why Data Sovereignty Matters&lt;/h2&gt;
+&lt;p&gt;When using AI tools in the cloud, where your data is processed and stored has a major impact:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Legal compliance (e.g. GDPR)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data residency requirements&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Protection from mass surveillance&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Infomaniak’s Swiss Cloud is one of the few solutions that:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

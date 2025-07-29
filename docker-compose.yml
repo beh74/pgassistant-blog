@@ -1,0 +1,15 @@
+
+version: '3'
+services:
+  hugo:
+    image: hugomods/hugo:debian-nightly
+    command:
+      - server
+      - --bind=0.0.0.0
+      - --baseURL=http://localhost
+      - -e
+      - production
+    ports:
+      - "1313:1313"
+    volumes:
+      - .:/src

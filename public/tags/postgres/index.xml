@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Postgres on pgAssistant Blog</title>
+    <link>http://localhost:1313/tags/postgres/</link>
+    <description>Recent content in Postgres on pgAssistant Blog</description>
+    <generator>Hugo -- 0.149.0-DEV</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/postgres/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enable pg_stat_statements module</title>
+      <link>http://localhost:1313/doc/pg_stat_statments/</link>
+      <pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/doc/pg_stat_statments/</guid>
+      <description>&lt;h1 id=&#34;how-to-do-it&#34;&gt;How to do it&lt;/h1&gt;
+&lt;p&gt;pg_stat_statements is required by pgAssistant. If you are not familiar with this module, you can find &lt;a href=&#34;https://www.postgresql.org/docs/current/pgstatstatements.html&#34;&gt;here&lt;/a&gt; the official Postgres documentation.&lt;/p&gt;
+&lt;p&gt;To enable this module, add this option on the command that runs Posgres :&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;shared_preload_libraries=&amp;#39;pg_stat_statements&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, connect to the database and run this command :&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(When you run pgAssistant, he will execute this SQL Statements)&lt;/p&gt;
+&lt;h1 id=&#34;if-you-run-postgresql-in-a-docker-environment&#34;&gt;If you run Postgresql in a docker environment&lt;/h1&gt;
+&lt;p&gt;Here is a sample docker-compose file that enables the module :&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

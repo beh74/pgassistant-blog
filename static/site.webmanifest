@@ -1,0 +1,8 @@
+{
+  "name": "pgAssistant",
+  "short_name": "pgAssistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "Open-source AI Assistant for PostgreSQL"
+}

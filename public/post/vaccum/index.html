@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>PostgreSQL Autovacuum Tuning Based on Table Size | pgAssistant Blog</title>
+<meta name="keywords" content="PostgreSQL, vacuum">
+<meta name="description" content="Object
+This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized autovacuum settings on a per-table basis. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to table size and usage patterns.
+Goal
+PostgreSQL uses autovacuum to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:">
+<meta name="author" content="pgAssistant">
+<link rel="canonical" href="http://localhost:1313/post/vaccum/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/post/vaccum/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/post/vaccum/">
+  <meta property="og:site_name" content="pgAssistant Blog">
+  <meta property="og:title" content="PostgreSQL Autovacuum Tuning Based on Table Size">
+  <meta property="og:description" content="Object This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized autovacuum settings on a per-table basis. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to table size and usage patterns.
+Goal PostgreSQL uses autovacuum to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-07-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-27T00:00:00+00:00">
+    <meta property="article:tag" content="PostgreSQL">
+    <meta property="article:tag" content="Vacuum">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL Autovacuum Tuning Based on Table Size">
+<meta name="twitter:description" content="Object
+This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized autovacuum settings on a per-table basis. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to table size and usage patterns.
+Goal
+PostgreSQL uses autovacuum to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "PostgreSQL Autovacuum Tuning Based on Table Size",
+      "item": "http://localhost:1313/post/vaccum/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PostgreSQL Autovacuum Tuning Based on Table Size",
+  "name": "PostgreSQL Autovacuum Tuning Based on Table Size",
+  "description": "Object This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized autovacuum settings on a per-table basis. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to table size and usage patterns.\nGoal PostgreSQL uses autovacuum to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:\n",
+  "keywords": [
+    "PostgreSQL", "vacuum"
+  ],
+  "articleBody": "Object This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized autovacuum settings on a per-table basis. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to table size and usage patterns.\nGoal PostgreSQL uses autovacuum to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:\nTable bloat (too much dead data) Poor query planning (outdated statistics) Unnecessary I/O overhead (frequent vacuums on small tables) This script identifies tables with suboptimal autovacuum settings and suggests tailored values using industry recommendations.\nLogic Used The query calculates optimal values for four key autovacuum parameters:\nautovacuum_vacuum_scale_factor autovacuum_vacuum_threshold autovacuum_analyze_scale_factor autovacuum_analyze_threshold These are determined based on the estimated number of rows in each table (pg_class.reltuples).\nDynamic Threshold Logic Estimated Row Count (reltuples) vacuum_scale_factor vacuum_threshold analyze_scale_factor analyze_threshold \u003e 1,000,000 0.0 400,000 0.0 100,000 100,000 – 1,000,000 0.005 10,000 0.01 10,000 10,000 – 100,000 0.02 1,000 0.01 1,000 \u003c 10,000 0.01 1,000 0.005 500 These values are based on community best practices from sources like:\nEnterpriseDB Percona pganalyze Keith Fiske Special Cases If reltuples = -1, it means the table has never been analyzed. → The script will suggest: ANALYZE schema.table; If a table already has optimal settings, no action is suggested. Output The query returns:\nTable name Current and suggested autovacuum values A SQL command: either ANALYZE or ALTER TABLE ... SET (...) You can filter on suggested_action IS NOT NULL to extract only actionable commands.\nHow to Use Run the query in a PostgreSQL-compatible tool (e.g. psql, DBeaver, pgAdmin) or search for query ‘vacuum’ in pgAssistant. Review the suggested_action column. Apply the ALTER TABLE and ANALYZE commands where appropriate. ⚠️Always test configuration changes in staging environments before deploying to production.\nNotes The script assumes default PostgreSQL configuration as baseline (scale_factor = 0.2, threshold = 50). It is designed for PostgreSQL 12+. It ignores pg_catalog and information_schema namespaces. Feedback Feel free to contribute improvements or report issues if your workload requires more specialized tuning (e.g. append-only tables, partitioned workloads, etc.).\nThe query WITH table_info AS ( SELECT n.nspname, c.relname, c.oid, COALESCE(c.reltuples, -1) AS reltuples, c.reloptions, ( SELECT regexp_replace(opt, 'autovacuum_vacuum_scale_factor=', '') FROM unnest(c.reloptions) opt WHERE opt LIKE 'autovacuum_vacuum_scale_factor=%' )::float AS current_vacuum_scale, ( SELECT regexp_replace(opt, 'autovacuum_vacuum_threshold=', '') FROM unnest(c.reloptions) opt WHERE opt LIKE 'autovacuum_vacuum_threshold=%' )::int AS current_vacuum_threshold, ( SELECT regexp_replace(opt, 'autovacuum_analyze_scale_factor=', '') FROM unnest(c.reloptions) opt WHERE opt LIKE 'autovacuum_analyze_scale_factor=%' )::float AS current_analyze_scale, ( SELECT regexp_replace(opt, 'autovacuum_analyze_threshold=', '') FROM unnest(c.reloptions) opt WHERE opt LIKE 'autovacuum_analyze_threshold=%' )::int AS current_analyze_threshold FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind = 'r' AND n.nspname NOT IN ('pg_catalog', 'information_schema') ), computed_autovacuum AS ( SELECT *, CASE WHEN reltuples \u003e 1000000 THEN 0.0 WHEN reltuples \u003e 100000 THEN 0.005 WHEN reltuples \u003e 10000 THEN 0.02 WHEN reltuples \u003e= 0 THEN 0.01 ELSE NULL END AS new_vacuum_scale, CASE WHEN reltuples \u003e 1000000 THEN 400000 WHEN reltuples \u003e 100000 THEN 10000 WHEN reltuples \u003e 10000 THEN 1000 WHEN reltuples \u003e= 0 THEN 1000 ELSE NULL END AS new_vacuum_threshold, CASE WHEN reltuples \u003e 1000000 THEN 0.0 WHEN reltuples \u003e 100000 THEN 0.01 WHEN reltuples \u003e 10000 THEN 0.01 WHEN reltuples \u003e= 0 THEN 0.005 ELSE NULL END AS new_analyze_scale, CASE WHEN reltuples \u003e 1000000 THEN 100000 WHEN reltuples \u003e 100000 THEN 10000 WHEN reltuples \u003e 10000 THEN 1000 WHEN reltuples \u003e= 0 THEN 500 ELSE NULL END AS new_analyze_threshold FROM table_info ) SELECT nspname || '.' || relname AS table_name, reltuples AS estimated_rows, COALESCE(current_vacuum_scale, 0.2) AS current_vacuum_scale, COALESCE(current_vacuum_threshold, 50) AS current_vacuum_threshold, COALESCE(current_analyze_scale, 0.1) AS current_analyze_scale, COALESCE(current_analyze_threshold, 50) AS current_analyze_threshold, new_vacuum_scale, new_vacuum_threshold, new_analyze_scale, new_analyze_threshold, CASE WHEN reltuples = -1 THEN 'ANALYZE ' || quote_ident(nspname) || '.' || quote_ident(relname) || ';' WHEN COALESCE(current_vacuum_scale, 0.2) != new_vacuum_scale OR COALESCE(current_vacuum_threshold, 50) != new_vacuum_threshold OR COALESCE(current_analyze_scale, 0.1) != new_analyze_scale OR COALESCE(current_analyze_threshold, 50) != new_analyze_threshold THEN 'ALTER TABLE ' || quote_ident(nspname) || '.' || quote_ident(relname) || ' SET (' || 'autovacuum_vacuum_scale_factor = ' || new_vacuum_scale || ', ' || 'autovacuum_vacuum_threshold = ' || new_vacuum_threshold || ', ' || 'autovacuum_analyze_scale_factor = ' || new_analyze_scale || ', ' || 'autovacuum_analyze_threshold = ' || new_analyze_threshold || ');' ELSE NULL END AS suggested_action FROM computed_autovacuum ORDER BY reltuples DESC NULLS LAST; ",
+  "wordCount" : "703",
+  "inLanguage": "en",
+  "datePublished": "2025-07-27T00:00:00Z",
+  "dateModified": "2025-07-27T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "pgAssistant"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/post/vaccum/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "pgAssistant Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="pgAssistant Blog (Alt + H)">pgAssistant Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/doc/" title="Documentation">
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/post/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/post/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      PostgreSQL Autovacuum Tuning Based on Table Size
+    </h1>
+    <div class="post-meta"><span title='2025-07-27 00:00:00 +0000 UTC'>July 27, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;pgAssistant
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#object" aria-label="Object">Object</a><ul>
+                        
+                <li>
+                    <a href="#goal" aria-label="Goal">Goal</a></li>
+                <li>
+                    <a href="#logic-used" aria-label="Logic Used">Logic Used</a><ul>
+                        
+                <li>
+                    <a href="#dynamic-threshold-logic" aria-label="Dynamic Threshold Logic">Dynamic Threshold Logic</a></li></ul>
+                </li>
+                <li>
+                    <a href="#special-cases" aria-label="Special Cases">Special Cases</a></li>
+                <li>
+                    <a href="#output" aria-label="Output">Output</a></li>
+                <li>
+                    <a href="#how-to-use" aria-label="How to Use">How to Use</a></li>
+                <li>
+                    <a href="#notes" aria-label="Notes">Notes</a></li>
+                <li>
+                    <a href="#feedback" aria-label="Feedback">Feedback</a></li>
+                <li>
+                    <a href="#the-query" aria-label="The query">The query</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="object">Object<a hidden class="anchor" aria-hidden="true" href="#object">#</a></h1>
+<p>This post provides a SQL query that analyzes PostgreSQL tables and suggests optimized <code>autovacuum</code> settings on a <strong>per-table basis</strong>. It aims to improve database health and performance by adapting vacuum/analyze thresholds according to <strong>table size</strong> and <strong>usage patterns</strong>.</p>
+<h2 id="goal">Goal<a hidden class="anchor" aria-hidden="true" href="#goal">#</a></h2>
+<p>PostgreSQL uses <code>autovacuum</code> to automatically clean up dead tuples and refresh planner statistics. However, the default settings may be too aggressive for small tables or too lax for large ones, leading to:</p>
+<ul>
+<li><strong>Table bloat</strong> (too much dead data)</li>
+<li><strong>Poor query planning</strong> (outdated statistics)</li>
+<li><strong>Unnecessary I/O overhead</strong> (frequent vacuums on small tables)</li>
+</ul>
+<p>This script identifies tables with suboptimal autovacuum settings and suggests tailored values using industry recommendations.</p>
+<hr>
+<h2 id="logic-used">Logic Used<a hidden class="anchor" aria-hidden="true" href="#logic-used">#</a></h2>
+<p>The query calculates optimal values for four key autovacuum parameters:</p>
+<ul>
+<li><code>autovacuum_vacuum_scale_factor</code></li>
+<li><code>autovacuum_vacuum_threshold</code></li>
+<li><code>autovacuum_analyze_scale_factor</code></li>
+<li><code>autovacuum_analyze_threshold</code></li>
+</ul>
+<p>These are determined based on the estimated number of rows in each table (<code>pg_class.reltuples</code>).</p>
+<h3 id="dynamic-threshold-logic">Dynamic Threshold Logic<a hidden class="anchor" aria-hidden="true" href="#dynamic-threshold-logic">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>Estimated Row Count (<code>reltuples</code>)</th>
+          <th><code>vacuum_scale_factor</code></th>
+          <th><code>vacuum_threshold</code></th>
+          <th><code>analyze_scale_factor</code></th>
+          <th><code>analyze_threshold</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&gt; 1,000,000</td>
+          <td>0.0</td>
+          <td>400,000</td>
+          <td>0.0</td>
+          <td>100,000</td>
+      </tr>
+      <tr>
+          <td>100,000 – 1,000,000</td>
+          <td>0.005</td>
+          <td>10,000</td>
+          <td>0.01</td>
+          <td>10,000</td>
+      </tr>
+      <tr>
+          <td>10,000 – 100,000</td>
+          <td>0.02</td>
+          <td>1,000</td>
+          <td>0.01</td>
+          <td>1,000</td>
+      </tr>
+      <tr>
+          <td>&lt; 10,000</td>
+          <td>0.01</td>
+          <td>1,000</td>
+          <td>0.005</td>
+          <td>500</td>
+      </tr>
+  </tbody>
+</table>
+<p>These values are based on community best practices from sources like:</p>
+<ul>
+<li><a href="https://www.enterprisedb.com/blog/autovacuum-tuning-basics">EnterpriseDB</a></li>
+<li><a href="https://www.percona.com/blog/tuning-autovacuum-in-postgresql-and-autovacuum-internals">Percona</a></li>
+<li><a href="https://pganalyze.com/blog/introducing-vacuum-advisor-postgres">pganalyze</a></li>
+<li><a href="https://www.keithf4.com/per-table-autovacuum-tuning/">Keith Fiske</a></li>
+</ul>
+<hr>
+<h2 id="special-cases">Special Cases<a hidden class="anchor" aria-hidden="true" href="#special-cases">#</a></h2>
+<ul>
+<li><strong>If <code>reltuples = -1</code></strong>, it means the table has never been analyzed.
+<ul>
+<li>→ The script will suggest: <code>ANALYZE schema.table;</code></li>
+</ul>
+</li>
+<li><strong>If a table already has optimal settings</strong>, no action is suggested.</li>
+</ul>
+<hr>
+<h2 id="output">Output<a hidden class="anchor" aria-hidden="true" href="#output">#</a></h2>
+<p>The query returns:</p>
+<ul>
+<li>Table name</li>
+<li>Current and suggested autovacuum values</li>
+<li>A SQL command: either <code>ANALYZE</code> or <code>ALTER TABLE ... SET (...)</code></li>
+</ul>
+<p>You can filter on <code>suggested_action IS NOT NULL</code> to extract only actionable commands.</p>
+<hr>
+<h2 id="how-to-use">How to Use<a hidden class="anchor" aria-hidden="true" href="#how-to-use">#</a></h2>
+<ol>
+<li>Run the <a href="/post/vaccum/#the-query">query</a> in a PostgreSQL-compatible tool (e.g. <code>psql</code>, DBeaver, pgAdmin) or search for query &lsquo;vacuum&rsquo; in <strong>pgAssistant</strong>.</li>
+<li>Review the <code>suggested_action</code> column.</li>
+<li>Apply the <code>ALTER TABLE</code> and <code>ANALYZE</code> commands where appropriate.</li>
+</ol>
+<p><strong>⚠️Always test configuration changes in staging environments before deploying to production.</strong></p>
+<hr>
+<h2 id="notes">Notes<a hidden class="anchor" aria-hidden="true" href="#notes">#</a></h2>
+<ul>
+<li>The script assumes default PostgreSQL configuration as baseline (<code>scale_factor = 0.2</code>, <code>threshold = 50</code>).</li>
+<li>It is designed for PostgreSQL 12+.</li>
+<li>It ignores <code>pg_catalog</code> and <code>information_schema</code> namespaces.</li>
+</ul>
+<hr>
+<h2 id="feedback">Feedback<a hidden class="anchor" aria-hidden="true" href="#feedback">#</a></h2>
+<p>Feel free to contribute improvements or report issues if your workload requires more specialized tuning (e.g. append-only tables, partitioned workloads, etc.).</p>
+<h2 id="the-query">The query<a hidden class="anchor" aria-hidden="true" href="#the-query">#</a></h2>
+<pre tabindex="0"><code>WITH table_info AS (
+  SELECT
+    n.nspname,
+    c.relname,
+    c.oid,
+    COALESCE(c.reltuples, -1) AS reltuples,
+    c.reloptions,
+    (
+      SELECT regexp_replace(opt, &#39;autovacuum_vacuum_scale_factor=&#39;, &#39;&#39;)
+      FROM unnest(c.reloptions) opt
+      WHERE opt LIKE &#39;autovacuum_vacuum_scale_factor=%&#39;
+    )::float AS current_vacuum_scale,
+    (
+      SELECT regexp_replace(opt, &#39;autovacuum_vacuum_threshold=&#39;, &#39;&#39;)
+      FROM unnest(c.reloptions) opt
+      WHERE opt LIKE &#39;autovacuum_vacuum_threshold=%&#39;
+    )::int AS current_vacuum_threshold,
+    (
+      SELECT regexp_replace(opt, &#39;autovacuum_analyze_scale_factor=&#39;, &#39;&#39;)
+      FROM unnest(c.reloptions) opt
+      WHERE opt LIKE &#39;autovacuum_analyze_scale_factor=%&#39;
+    )::float AS current_analyze_scale,
+    (
+      SELECT regexp_replace(opt, &#39;autovacuum_analyze_threshold=&#39;, &#39;&#39;)
+      FROM unnest(c.reloptions) opt
+      WHERE opt LIKE &#39;autovacuum_analyze_threshold=%&#39;
+    )::int AS current_analyze_threshold
+  FROM
+    pg_class c
+    JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE
+    c.relkind = &#39;r&#39;
+    AND n.nspname NOT IN (&#39;pg_catalog&#39;, &#39;information_schema&#39;)
+),
+computed_autovacuum AS (
+  SELECT
+    *,
+    CASE
+      WHEN reltuples &gt; 1000000 THEN 0.0
+      WHEN reltuples &gt; 100000 THEN 0.005
+      WHEN reltuples &gt; 10000 THEN 0.02
+      WHEN reltuples &gt;= 0 THEN 0.01
+      ELSE NULL
+    END AS new_vacuum_scale,
+    CASE
+      WHEN reltuples &gt; 1000000 THEN 400000
+      WHEN reltuples &gt; 100000 THEN 10000
+      WHEN reltuples &gt; 10000 THEN 1000
+      WHEN reltuples &gt;= 0 THEN 1000
+      ELSE NULL
+    END AS new_vacuum_threshold,
+    CASE
+      WHEN reltuples &gt; 1000000 THEN 0.0
+      WHEN reltuples &gt; 100000 THEN 0.01
+      WHEN reltuples &gt; 10000 THEN 0.01
+      WHEN reltuples &gt;= 0 THEN 0.005
+      ELSE NULL
+    END AS new_analyze_scale,
+    CASE
+      WHEN reltuples &gt; 1000000 THEN 100000
+      WHEN reltuples &gt; 100000 THEN 10000
+      WHEN reltuples &gt; 10000 THEN 1000
+      WHEN reltuples &gt;= 0 THEN 500
+      ELSE NULL
+    END AS new_analyze_threshold
+  FROM table_info
+)
+SELECT
+  nspname || &#39;.&#39; || relname AS table_name,
+  reltuples AS estimated_rows,
+  COALESCE(current_vacuum_scale, 0.2) AS current_vacuum_scale,
+  COALESCE(current_vacuum_threshold, 50) AS current_vacuum_threshold,
+  COALESCE(current_analyze_scale, 0.1) AS current_analyze_scale,
+  COALESCE(current_analyze_threshold, 50) AS current_analyze_threshold,
+  new_vacuum_scale,
+  new_vacuum_threshold,
+  new_analyze_scale,
+  new_analyze_threshold,
+  CASE
+    WHEN reltuples = -1 THEN 
+      &#39;ANALYZE &#39; || quote_ident(nspname) || &#39;.&#39; || quote_ident(relname) || &#39;;&#39;
+    WHEN COALESCE(current_vacuum_scale, 0.2) != new_vacuum_scale
+      OR COALESCE(current_vacuum_threshold, 50) != new_vacuum_threshold
+      OR COALESCE(current_analyze_scale, 0.1) != new_analyze_scale
+      OR COALESCE(current_analyze_threshold, 50) != new_analyze_threshold
+    THEN &#39;ALTER TABLE &#39; || quote_ident(nspname) || &#39;.&#39; || quote_ident(relname) || &#39; SET (&#39; ||
+         &#39;autovacuum_vacuum_scale_factor = &#39; || new_vacuum_scale || &#39;, &#39; ||
+         &#39;autovacuum_vacuum_threshold = &#39; || new_vacuum_threshold || &#39;, &#39; ||
+         &#39;autovacuum_analyze_scale_factor = &#39; || new_analyze_scale || &#39;, &#39; ||
+         &#39;autovacuum_analyze_threshold = &#39; || new_analyze_threshold || &#39;);&#39;
+    ELSE NULL
+  END AS suggested_action
+FROM computed_autovacuum
+ORDER BY reltuples DESC NULLS LAST;
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/postgresql/">PostgreSQL</a></li>
+      <li><a href="http://localhost:1313/tags/vacuum/">Vacuum</a></li>
+    </ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">pgAssistant Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

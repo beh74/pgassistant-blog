@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Myqueries on pgAssistant Blog</title>
+    <link>http://localhost:1313/tags/myqueries/</link>
+    <description>Recent content in Myqueries on pgAssistant Blog</description>
+    <generator>Hugo -- 0.149.0-DEV</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 10 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/myqueries/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding the myqueries.json file</title>
+      <link>http://localhost:1313/doc/myqueries/</link>
+      <pubDate>Fri, 10 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/doc/myqueries/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;myqueries.json&lt;/strong&gt; file is used to store your helpfull queries.&lt;/p&gt;
+&lt;p&gt;Each querie you add to the json file can be searched and executed by pgAssistant.&lt;/p&gt;
+&lt;p&gt;The JSON format is very simple :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;db_version&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Database version&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Database&amp;#34;&lt;/span&gt;,        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;sql&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SHOW server_version;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;select&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;reference&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://www.postgresql.org/docs/current/sql-show.html&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;id&lt;/strong&gt; A unique ID of the query&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;description&lt;/strong&gt; The description of your SQL query&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;categorie&lt;/strong&gt; A SQL category like Database, Issue, Table, Index or whatever you want&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sql&lt;/strong&gt; The SQL query ended with a &amp;ldquo;;&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;reference&lt;/strong&gt; An URL on the query documentation or your project documentation&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;type&lt;/strong&gt; 2 sql types are alowed
+&lt;ul&gt;
+&lt;li&gt;select : performing a select&lt;/li&gt;
+&lt;li&gt;param_query : a select query with parameters. Each parameter must be in the format $1, $2, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Docs on pgAssistant Blog</title>
+    <link>http://localhost:1313/doc/</link>
+    <description>Recent content in Docs on pgAssistant Blog</description>
+    <generator>Hugo -- 0.149.0-DEV</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 24 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/doc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enable pg_stat_statements module</title>
+      <link>http://localhost:1313/doc/pg_stat_statments/</link>
+      <pubDate>Thu, 24 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/doc/pg_stat_statments/</guid>
+      <description>&lt;h1 id=&#34;how-to-do-it&#34;&gt;How to do it&lt;/h1&gt;
+&lt;p&gt;pg_stat_statements is required by pgAssistant. If you are not familiar with this module, you can find &lt;a href=&#34;https://www.postgresql.org/docs/current/pgstatstatements.html&#34;&gt;here&lt;/a&gt; the official Postgres documentation.&lt;/p&gt;
+&lt;p&gt;To enable this module, add this option on the command that runs Posgres :&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;shared_preload_libraries=&amp;#39;pg_stat_statements&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, connect to the database and run this command :&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(When you run pgAssistant, he will execute this SQL Statements)&lt;/p&gt;
+&lt;h1 id=&#34;if-you-run-postgresql-in-a-docker-environment&#34;&gt;If you run Postgresql in a docker environment&lt;/h1&gt;
+&lt;p&gt;Here is a sample docker-compose file that enables the module :&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Startup pgAssistant with docker</title>
+      <link>http://localhost:1313/doc/startup_docker/</link>
+      <pubDate>Thu, 24 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/doc/startup_docker/</guid>
+      <description>&lt;h1 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h1&gt;
+&lt;p&gt;You must enable the &lt;strong&gt;pg_stat_statements&lt;/strong&gt; module on your postgres database. &lt;a href=&#34;http://localhost:1313/doc/pg_stat_statments&#34;&gt;Here is a documentation&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;using-the-nexsol-technologies-docker-file&#34;&gt;Using the NexSol Technologies docker file&lt;/h1&gt;
+&lt;p&gt;Here is a sample docker-compose.yml file to run pgassistant :&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;services:
+  pgassistant:
+    image: nexsoltech/pgassistant:latest
+    restart: always
+    environment:
+      - OPENAI_API_KEY=nothing
+      - OPENAI_API_MODEL=codestral:latest
+      - LOCAL_LLM_URI=http://host.docker.internal:11434/v1/
+      - SECRET_KEY=mySecretKey4PgAssistant
+    ports:
+      - &amp;#34;8080:5005&amp;#34;
+    volumes:
+      - ./myqueries.json:/home/pgassistant/myqueries.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The file myqueries.json is not necessary to run pgAssistant, but it should be usefull. Please read the doc &lt;a href=&#34;http://localhost:1313/doc/myqueries&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;envrionment-variables&#34;&gt;Envrionment variables&lt;/h3&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Variable&lt;/th&gt;
+          &lt;th&gt;Description&lt;/th&gt;
+          &lt;th&gt;Example value&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;OPENAI_API_KEY&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Dummy key (required by clients expecting a token)&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;nothing&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;OPENAI_API_MODEL&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Model identifier to use with the API&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;codestral:latest&lt;/code&gt; or &lt;code&gt;mistral:latest&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;LOCAL_LLM_URI&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Local endpoint URL for the OpenAI-compatible API&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;http://host.docker.internal:11434/v1/&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;SECRET_KEY&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Used to encrypt some htttp session variables.&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;mySecretKey4PgAssistant&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;OPENAI_API_KEY&lt;/code&gt; is required by most clients but not used when querying local LLMs like &lt;strong&gt;Ollama&lt;/strong&gt;. You can set it to any placeholder (e.g. &lt;code&gt;nothing&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OPENAI_API_MODEL&lt;/code&gt; must match the model name loaded in Ollama (e.g. &lt;code&gt;codestral&lt;/code&gt;, &lt;code&gt;llama3&lt;/code&gt;, &lt;code&gt;mistral&lt;/code&gt;, etc.).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LOCAL_LLM_URI&lt;/code&gt; should point to the Ollama server, accessible from inside your Docker container via &lt;code&gt;host.docker.internal&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;how-to-build-your-docker-image&#34;&gt;How to build your docker image&lt;/h1&gt;
+&lt;p&gt;Simply clone the repo and then build your own image like this :&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Understanding the myqueries.json file</title>
+      <link>http://localhost:1313/doc/myqueries/</link>
+      <pubDate>Fri, 10 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/doc/myqueries/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;myqueries.json&lt;/strong&gt; file is used to store your helpfull queries.&lt;/p&gt;
+&lt;p&gt;Each querie you add to the json file can be searched and executed by pgAssistant.&lt;/p&gt;
+&lt;p&gt;The JSON format is very simple :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;db_version&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Database version&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Database&amp;#34;&lt;/span&gt;,        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;sql&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SHOW server_version;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;select&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;reference&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://www.postgresql.org/docs/current/sql-show.html&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;id&lt;/strong&gt; A unique ID of the query&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;description&lt;/strong&gt; The description of your SQL query&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;categorie&lt;/strong&gt; A SQL category like Database, Issue, Table, Index or whatever you want&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sql&lt;/strong&gt; The SQL query ended with a &amp;ldquo;;&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;reference&lt;/strong&gt; An URL on the query documentation or your project documentation&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;type&lt;/strong&gt; 2 sql types are alowed
+&lt;ul&gt;
+&lt;li&gt;select : performing a select&lt;/li&gt;
+&lt;li&gt;param_query : a select query with parameters. Each parameter must be in the format $1, $2, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>
