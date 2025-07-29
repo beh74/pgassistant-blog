@@ -9,7 +9,7 @@ draft: false
  
 Data privacy is no longer a luxury — it’s a necessity.
 
-Today, we’ll show you how to use pgAssistant with [Infomaniak Cloud](https://swissdata.ai/en) — Infomaniak's privacy-focused, sovereign cloud solution based in Switzerland🇨.
+Today, we’ll show you how to use pgAssistant with [Infomaniak Cloud](https://www.infomaniak.com/fr/hebergement/ai-tools) — Infomaniak's privacy-focused, sovereign cloud solution based in Switzerland🇨.
 
 ---
 
@@ -63,11 +63,11 @@ services:
 
 Lets analyze this DDL with llama3 hosted by Infomaniak :
 
-![Analyze](/images/infomaniak_tabledef.webp)
+![Analyze]({{< ref "/images/infomaniak_tabledef.webp" >}})
 
 and here is the result :
 
-![Result](/images/infomaniak_result.webp)
+![Result]({{< ref "/images/infomaniak_result.webp" >}})
 
 ---
 
