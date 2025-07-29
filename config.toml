@@ -1,5 +1,5 @@
 
-baseURL = "https://beh74.github.io/pgassistant-blog"
+
 languageCode = "en-us"
 title = "pgAssistant Blog"
 theme = "PaperMod"
