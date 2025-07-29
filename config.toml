@@ -19,7 +19,6 @@ defaultContentLanguage = "en"
   keywords = ["PostgreSQL", "LLM", "pgAssistant", "Privacy", "Ollama", "Self-hosting"]
   author = "beh74"
   ShowShareButtons = true
-  ShowCodeCopyButtons = true
   ShowReadingTime = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
