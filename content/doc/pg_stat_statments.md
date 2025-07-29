@@ -1,6 +1,6 @@
 ---
 title: "Enable pg_stat_statements module"
-date: 2025-07-24
+date: 2025-01-10
 tags: ["Docker","Postgres"]
 draft: false
 ---

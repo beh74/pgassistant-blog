@@ -1,6 +1,6 @@
 ---
 title: "Startup pgAssistant with docker"
-date: 2025-07-24
+date: 2025-01-10
 tags: ["Docker"]
 draft: false
 ---
