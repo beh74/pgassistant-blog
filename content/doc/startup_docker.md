@@ -7,7 +7,7 @@ draft: false
 
 # Before you begin
 
-You must enable the **pg_stat_statements** module on your postgres database. [Here is a documentation](/doc/pg_stat_statments) 
+You must enable the **pg_stat_statements** module on your postgres database. [Here is a documentation]({{< ref "/doc/pg_stat_statments.md" >}}) 
 
 # Using the NexSol Technologies docker file
 
@@ -29,7 +29,7 @@ services:
       - ./myqueries.json:/home/pgassistant/myqueries.json
 ```
 
-The file myqueries.json is not necessary to run pgAssistant, but it should be usefull. Please read the doc [here](/doc/myqueries) 
+The file myqueries.json is not necessary to run pgAssistant, but it should be usefull. Please read the doc [here]({{< ref "/doc/myqueries.md" >}})
 
 ### Envrionment variables
 
