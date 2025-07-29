@@ -38,3 +38,5 @@ canonifyURLs = true
   name = "Documentation"
   url = "/doc/"
   weight = 1
+
+
