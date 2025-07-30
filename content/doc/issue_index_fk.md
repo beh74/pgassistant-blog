@@ -1,7 +1,7 @@
 ---
 title: "The issue - Missing index on foreign key"
 date: 2025-01-10
-tags: ["Python"]
+tags: ["Postgres", "Issue"]
 draft: false
 ---
 

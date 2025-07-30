@@ -1,7 +1,7 @@
 ---
 title: "PostgreSQL Autovacuum Tuning Based on Table Size"
 date: 2025-07-27
-tags: ["PostgreSQL", "vacuum"]
+tags: ["Postgres", "vacuum"]
 draft: false
 ---
 

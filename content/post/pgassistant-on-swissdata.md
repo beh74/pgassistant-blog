@@ -1,7 +1,7 @@
 ---
 title: "Using pgAssistant with Infomaniak’s AI Cloud"
 date: 2025-07-27
-tags: ["PostgreSQL", "AI", "Privacy", "Infomaniak"]
+tags: ["AI", "Privacy", "Infomaniak"]
 draft: false
 ---
 
