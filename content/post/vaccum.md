@@ -72,11 +72,11 @@ You can filter on `suggested_action IS NOT NULL` to extract only actionable comm
 
 ## How to Use
 
-1. Run the [query](/post/vaccum/#the-query) in a PostgreSQL-compatible tool (e.g. `psql`, DBeaver, pgAdmin) or search for query 'vacuum' in **pgAssistant**.
+1. Run the [query](/post/vaccum/#the-query) in a PostgreSQL-compatible tool (e.g. `psql`, DBeaver, pgAdmin).
 2. Review the `suggested_action` column.
 3. Apply the `ALTER TABLE` and `ANALYZE` commands where appropriate.
 
-**⚠️Always test configuration changes in staging environments before deploying to production.**
+** Always test configuration changes in staging environments before deploying to production.**
 
 ---
 

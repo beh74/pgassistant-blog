@@ -75,6 +75,24 @@ Just click on it !
 
 pgAssistant will show you the list of missing indexes on foreign keys and gives you a SQL command to create the missing index.
 
+![Result](/pgassistant-blog/images/issue_index_missing_fk.png)
+
+The column **INDEX_IMPORTANCE** can take this values :
+
+| VALUE                                       | COMMENT                                                                        |
+|---------------------------------------------|------------------------------------------------------------------------------- |
+| REFERENCED TABLE IS NOT ANALYZED !          | If the referenced table is not analyzed. You shoud run an ANALYZE on the table |
+| INDEX STRONGLY RECOMMENDED                  | When the referenced table has more than 1000 rows |
+| INDEX RECOMMENDED (moderate size)           | When the referenced table has more than 500 rows |
+| INDEX MISSING BUT REFERENCED TABLE IS SMALL | When the referenced table has less than 500 rows |  
+
+> pgAssistant leverages the **n_live_tup** column from the **pg_stat_user_tables system view** to estimate the number of live tuples (rows) in the referenced table. This statistic is maintained by PostgreSQL and updated during ANALYZE myTable or VACUUM ANALYZE, either manually or via autovacuum, depending on configuration.
+
+> If you need to ANALYZE a table, you can use any Postgresql client or you can use pgAssistant : go to search query and search for analyze. You should see the 'Launch analyze on a table' query. Execute it.
+
+> Never forget to analyze a table after an indexe creation ...
+
+
 You should notice that pgAssistant always use the SQL command : create index **CONCURRENTLY** myindex.
 
 If you wonder why, please take a look at [this documentation](https://www.postgresql.org/docs/current/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY)
