@@ -67,7 +67,7 @@ Lets analyze this DDL with llama3 hosted by Infomaniak :
 
 and here is the result :
 
-![Result](/pgassistant-blog/images/infomaniak_tabledef.webp)
+![Result](/pgassistant-blog/images/infomaniak_result.webp)
 
 ---
 
