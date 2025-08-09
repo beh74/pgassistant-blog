@@ -9,14 +9,14 @@ draft: false
 
 You must enable the **pg_stat_statements** module on your postgres database. [Here is a documentation]({{< ref "/doc/pg_stat_statments.md" >}}) 
 
-# Using the NexSol Technologies docker file
+# Using bertrand73/pgassistant docker file
 
 Here is a sample docker-compose.yml file to run pgassistant :
 
 ```
 services:
   pgassistant:
-    image: nexsoltech/pgassistant:latest
+    image: bertrand73/pgassistant:1.9.7
     restart: always
     environment:
       - OPENAI_API_KEY=nothing
@@ -53,7 +53,7 @@ The file myqueries.json is not necessary to run pgAssistant, but it should be us
 Simply clone the repo and then build your own image like this :
 
 ```bash
-git clone https://github.com/nexsol-technologies/pgassistant.git
+git clone https://github.com/beh74/pgassistant-community.git
 cd pgassistant
 docker build . -t mypgassistant:1.0
 ``` 

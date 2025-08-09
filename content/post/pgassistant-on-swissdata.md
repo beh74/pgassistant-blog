@@ -44,7 +44,7 @@ The Environment variable OPENAI_API_KEY is the value of your **token API**.
 ```  
 services:
   pgassistant:
-    image: nexsoltech/pgassistant:latest
+    image: bertrand73/pgassistant:1.9.7
     restart: always
     environment:
       - OPENAI_API_KEY=fGIDaOIfn-xxxxx

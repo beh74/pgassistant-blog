@@ -16,12 +16,12 @@ This release is coming with this news features :
 ![Result](/pgassistant-blog/images/llm_form.png)
 
 
-## New docker image is available on Nexsol dockerhub
+## New docker image is available on dockerhub
 
-Take a look at DockerHub [image tag](https://hub.docker.com/r/nexsoltech/pgassistant/tags)
+Take a look at DockerHub [image tag](https://hub.docker.com/r/bertrand73/pgassistant/tags)
 
 ```bash
-docker pull nexsoltech/pgassistant:1.9.7
+docker pull bertrand73/pgassistant:1.9.7
 ```
 
 Enjoy !

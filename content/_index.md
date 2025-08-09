@@ -10,7 +10,7 @@ description: "A PostgreSQL assistant for developers designed to help understand 
 - ✨ Open-source
 - 🐘 Built for PostgreSQL
 
-👉 Explore the documentation, the posts or [GitHub repo](https://github.com/nexsol-technologies/pgassistant)
+👉 Explore the documentation, the posts or [GitHub repo](https://github.com/beh74/pgassistant-community)
 
 👉If you are looking for good tools to work with postgres, you should have a look on [this](https://github.com/dhamaniasad/awesome-postgres)
 

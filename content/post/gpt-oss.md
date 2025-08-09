@@ -26,7 +26,7 @@ In a Docker environment, use the following `docker-compose.yml` file :
 ```
 services:
   pgassistant:
-    image: nexsoltech/pgassistant:1.9.7
+    image: bertrand73/pgassistant:1.9.7
     restart: always
     environment:
       - OPENAI_API_KEY=nothing
