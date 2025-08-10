@@ -9,7 +9,7 @@ draft: false
 
 You must enable the **pg_stat_statements** module on your postgres database. [Here is a documentation]({{< ref "/doc/pg_stat_statments.md" >}}) 
 
-# Using bertrand73/pgassistant docker file
+# Using bertrand73/pgassistant docker image
 
 Here is a sample docker-compose.yml file to run pgassistant :
 
@@ -57,3 +57,12 @@ git clone https://github.com/beh74/pgassistant-community.git
 cd pgassistant
 docker build . -t mypgassistant:1.0
 ``` 
+
+# Security Highlights
+
+-	Small attack surface – Lightweight Alpine base with only required packages.
+-	Non-root execution – Runs as pgassistant user by default.
+-	No caches – Installs packages with --no-cache to prevent stale data.
+-	Isolated environment – Uses a dedicated virtualenv inside the container.
+-	Regular CVE scans – Automated security scans with Grype & Docker Scout.
+
