@@ -12,7 +12,9 @@ description: "A PostgreSQL assistant for developers designed to help understand 
 
 👉 Explore the documentation, the posts or [GitHub repo](https://github.com/beh74/pgassistant-community)
 
-👉If you are looking for good tools to work with postgres, you should have a look on [this](https://github.com/dhamaniasad/awesome-postgres)
+👉If you are looking for good tools to work with postgres, you should have a look on :
+- [awesome-postgres repo](https://github.com/dhamaniasad/awesome-postgres)
+- [postgres_for_everything repo](https://github.com/Olshansk/postgres_for_everything)
 
 ## Before you begin
 
