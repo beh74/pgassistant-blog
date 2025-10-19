@@ -1,3 +1,9 @@
+---
+title: "SQL style guide from Simon Holywell"
+date: 2025-10-19
+tags: ["Postgres", "vacuum"]
+draft: false
+---
 # SQL style guide
 
 ## Overview
