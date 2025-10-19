@@ -1,26 +1,12 @@
 ---
-title: "SQL style guide from Simon Holywell"
+title: "Lightweight SQL style guide from Simon Holywell"
 date: 2025-10-19
-tags: ["Postgres", "vacuum"]
+tags: ["Postgres", "SQL conventions"]
 draft: false
 ---
 # SQL style guide
 
 ## Overview
-
-You can use this set of guidelines, [fork them][fork] or make your own - the
-key here is that you pick a style and stick to it. To suggest changes
-or fix bugs please open an [issue][issue] or [pull request][pull] on GitHub.
-
-These guidelines are designed to be compatible with Joe Celko's [SQL Programming
-Style][celko] book to make adoption for teams who have already read that book
-easier. This guide is a little more opinionated in some areas and in others a
-little more relaxed. It is certainly more succinct where [Celko's book][celko]
-contains anecdotes and reasoning behind each rule as thoughtful prose.
-
-It is easy to include this guide in [Markdown format][dl-md] as a part of a
-project's code base or reference it here for anyone on the project to freely
-read—much harder with a physical book.
 
 SQL style guide by [Simon Holywell][simon] is licensed under a [Creative Commons
 Attribution-ShareAlike 4.0 International License][licence].
@@ -42,19 +28,6 @@ Based on a work at [https://www.sqlstyle.guide/][sqlstyleguide].
   closing `*/` where possible otherwise precede comments with `--` and finish
   them with a new line.
 
-```sql
-SELECT file_hash  -- stored ssdeep hash
-  FROM file_system
- WHERE file_name = '.vimrc';
-```
-```sql
-/* Updating the file record after writing to the file */
-UPDATE file_system
-   SET file_modified_date = '1980-02-22 13:19:01.00000',
-       file_size = 209732
- WHERE file_name = '.vimrc';
-```
-
 ### Avoid
 
 * camelCase—it is difficult to scan quickly.
@@ -71,8 +44,7 @@ UPDATE file_system
 
 ### General
 
-* Ensure the name is unique and does not exist as a
-  [reserved keyword][reserved-keywords].
+* Ensure the name is unique and does not exist as a Postgresql keyword.
 * Keep the length to a maximum of 30 bytes—in practice this is 30 characters
   unless you are using a multi-byte character set.
 * Names must begin with a letter and may not end with an underscore.
@@ -82,11 +54,6 @@ UPDATE file_system
   name becomes `first_name`).
 * Avoid abbreviations and if you have to use them make sure they are commonly
   understood.
-
-```sql
-SELECT first_name
-  FROM staff;
-```
 
 ### Tables
 
@@ -115,29 +82,13 @@ SELECT first_name
 * For computed data (`SUM()` or `AVG()`) use the name you would give it were it
   a column defined in the schema.
 
-```sql
-SELECT first_name AS fn
-  FROM staff AS s1
-  JOIN students AS s2
-    ON s2.mentor_id = s1.staff_num;
-```
-```sql
-SELECT SUM(s.monitor_tally) AS monitor_total
-  FROM staff AS s;
-```
-
-### Stored procedures
-
-* The name must contain a verb.
-* Do not prefix with `sp_` or any other such descriptive prefix or Hungarian
-  notation.
-
 ### Uniform suffixes
 
 The following suffixes have a universal meaning ensuring the columns can be read
 and understood easily from SQL code. Use the correct suffix where appropriate.
 
 * `_id`—a unique identifier such as a column that is a primary key.
+* where possible avoid simply using `id` as the primary identifier for the table. use the table name prefix like this : tablename_id
 * `_status`—flag value or some other status of any type such as
   `publication_status`.
 * `_total`—the total or sum of a collection of values.
@@ -164,60 +115,6 @@ available (prefer `ABSOLUTE` to `ABS`).
 Do not use database server specific keywords where an ANSI SQL keyword already
 exists performing the same function. This helps to make the code more portable.
 
-```sql
-SELECT model_num
-  FROM phones AS p
- WHERE p.release_date > '2014-09-30';
-```
-
-### White space
-
-To make the code easier to read it is important that the correct complement of
-spacing is used. Do not crowd code or remove natural language spaces.
-
-#### Spaces
-
-Spaces should be used to line up the code so that the root keywords all end on
-the same character boundary. This forms a river down the middle making it easy for
-the readers eye to scan over the code and separate the keywords from the
-implementation detail. Rivers are [bad in typography][rivers], but helpful here.
-
-```sql
-(SELECT f.species_name,
-        AVG(f.height) AS average_height, AVG(f.diameter) AS average_diameter
-   FROM flora AS f
-  WHERE f.species_name = 'Banksia'
-     OR f.species_name = 'Sheoak'
-     OR f.species_name = 'Wattle'
-  GROUP BY f.species_name, f.observation_date)
-
-  UNION ALL
-
-(SELECT b.species_name,
-        AVG(b.height) AS average_height, AVG(b.diameter) AS average_diameter
-   FROM botanic_garden_flora AS b
-  WHERE b.species_name = 'Banksia'
-     OR b.species_name = 'Sheoak'
-     OR b.species_name = 'Wattle'
-  GROUP BY b.species_name, b.observation_date);
-```
-
-Notice that `SELECT`, `FROM`, etc. are all right aligned while the actual column
-names and implementation-specific details are left aligned.
-
-Although not exhaustive always include spaces:
-
-* before and after equals (`=`)
-* after commas (`,`)
-* surrounding apostrophes (`'`) where not within parentheses or with a trailing
-  comma or semicolon.
-
-```sql
-SELECT a.title, a.release_date, a.recording_date
-  FROM albums AS a
- WHERE a.title = 'Charcoal Lane'
-    OR a.title = 'The New Danger';
-```
 
 #### Line spacing
 
@@ -413,18 +310,6 @@ constraints along with field value validation.
   should check that the value is greater than zero in most cases.
 * `CHECK()` constraints should be kept in separate clauses to ease debugging.
 
-##### Example
-
-```sql
-CREATE TABLE staff (
-    PRIMARY KEY (staff_num),
-    staff_num      INT(5)       NOT NULL,
-    first_name     VARCHAR(100) NOT NULL,
-    pens_in_drawer INT(2)       NOT NULL,
-                   CONSTRAINT pens_in_drawer_range
-                   CHECK(pens_in_drawer BETWEEN 1 AND 99)
-);
-```
 
 ### Designs to avoid
 
