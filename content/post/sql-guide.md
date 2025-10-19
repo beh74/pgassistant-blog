@@ -4,7 +4,7 @@ date: 2025-10-19
 tags: ["Postgres", "SQL conventions"]
 draft: false
 ---
-# SQL style guide
+# Lightweight SQL style guide
 
 ## Overview
 
@@ -88,7 +88,7 @@ The following suffixes have a universal meaning ensuring the columns can be read
 and understood easily from SQL code. Use the correct suffix where appropriate.
 
 * `_id`—a unique identifier such as a column that is a primary key.
-* where possible avoid simply using `id` as the primary identifier for the table. use the table name prefix like this : tablename_id
+* **Where possible avoid simply using `id` as the primary identifier for the table**. use the table name prefix like this : `tablename_id`
 * `_status`—flag value or some other status of any type such as
   `publication_status`.
 * `_total`—the total or sum of a collection of values.
@@ -116,94 +116,6 @@ Do not use database server specific keywords where an ANSI SQL keyword already
 exists performing the same function. This helps to make the code more portable.
 
 
-#### Line spacing
-
-Always include newlines/vertical space:
-
-* before `AND` or `OR`
-* after semicolons to separate queries for easier reading
-* after each keyword definition
-* after a comma when separating multiple columns into logical groups
-* to separate code into related sections, which helps to ease the readability of
-  large chunks of code.
-
-Keeping all the keywords aligned to the righthand side and the values left aligned
-creates a uniform gap down the middle of the query. It also makes it much easier to
-to quickly scan over the query definition.
-
-```sql
-INSERT INTO albums (title, release_date, recording_date)
-VALUES ('Charcoal Lane', '1990-01-01 01:01:01.00000', '1990-01-01 01:01:01.00000'),
-       ('The New Danger', '2008-01-01 01:01:01.00000', '1990-01-01 01:01:01.00000');
-```
-
-```sql
-UPDATE albums
-   SET release_date = '1990-01-01 01:01:01.00000'
- WHERE title = 'The New Danger';
-```
-
-```sql
-SELECT a.title,
-       a.release_date, a.recording_date, a.production_date -- grouped dates together
-  FROM albums AS a
- WHERE a.title = 'Charcoal Lane'
-    OR a.title = 'The New Danger';
-```
-
-### Indentation
-
-To ensure that SQL is readable it is important that standards of indentation
-are followed.
-
-#### Joins
-
-Joins should be indented to the other side of the river and grouped with a new
-line where necessary.
-
-```sql
-SELECT r.last_name
-  FROM riders AS r
-       INNER JOIN bikes AS b
-       ON r.bike_vin_num = b.vin_num
-          AND b.engine_tally > 2
-
-       INNER JOIN crew AS c
-       ON r.crew_chief_last_name = c.last_name
-          AND c.chief = 'Y';
-```
-
-The exception to this is when using just the `JOIN` keyword where it should be
-before the river.
-
-```sql
-SELECT r.last_name
-  FROM riders AS r
-  JOIN bikes AS b
-    ON r.bike_vin_num = b.vin_num
-```
-
-#### Subqueries
-
-Subqueries should also be aligned to the right side of the river and then laid
-out using the same style as any other query. Sometimes it will make sense to have
-the closing parenthesis on a new line at the same character position as its
-opening partner—this is especially true where you have nested subqueries.
-
-```sql
-SELECT r.last_name,
-       (SELECT MAX(YEAR(championship_date))
-          FROM champions AS c
-         WHERE c.last_name = r.last_name
-           AND c.confirmed = 'Y') AS last_championship_year
-  FROM riders AS r
- WHERE r.last_name IN
-       (SELECT c.last_name
-          FROM champions AS c
-         WHERE YEAR(championship_date) > '2008'
-           AND c.confirmed = 'Y');
-```
-
 ### Preferred formalisms
 
 * Make use of `BETWEEN` where possible instead of combining multiple statements
@@ -214,25 +126,6 @@ SELECT r.last_name,
 * Avoid the use of `UNION` clauses and temporary tables where possible. If the
   schema can be optimised to remove the reliance on these features then it most
   likely should be.
-
-```sql
-SELECT CASE postcode
-       WHEN 'BN1' THEN 'Brighton'
-       WHEN 'EH1' THEN 'Edinburgh'
-       END AS city
-  FROM office_locations
- WHERE country = 'United Kingdom'
-   AND opening_time BETWEEN 8 AND 9
-   AND postcode IN ('EH1', 'BN1', 'NN1', 'KW1');
-```
-
-## Create syntax
-
-When declaring schema information it is also important to maintain human-readable
-code. To facilitate this ensure that the column definitions are ordered and
-grouped together where it makes sense to do so.
-
-Indent column definitions by four (4) spaces within the `CREATE` definition.
 
 ### Choosing data types
 
