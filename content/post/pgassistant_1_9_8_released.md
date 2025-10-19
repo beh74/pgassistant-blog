@@ -1,5 +1,5 @@
 ---
-title: "pgAssistant 1.9.9 is released !"
+title: "pgAssistant 1.9.8 is released !"
 date: 2025-10-13
 tags: ["pgAssistant", "Release"]
 draft: false

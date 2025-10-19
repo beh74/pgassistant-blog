@@ -16,12 +16,13 @@ Here is a sample docker-compose.yml file to run pgassistant :
 ```
 services:
   pgassistant:
-    image: bertrand73/pgassistant:1.9.7
+    image: bertrand73/pgassistant:1.9.9
     restart: always
     environment:
       - OPENAI_API_KEY=nothing
       - OPENAI_API_MODEL=codestral:latest
       - LOCAL_LLM_URI=http://host.docker.internal:11434/v1/
+      - LLM_SQL_GUIDELINES=https://raw.githubusercontent.com/beh74/pgassistant-blog/refs/heads/main/content/post/sql-guide.md
       - SECRET_KEY=mySecretKey4PgAssistant
     ports:
       - "8080:5005"
@@ -39,13 +40,14 @@ The file myqueries.json is not necessary to run pgAssistant, but it should be us
 | `OPENAI_API_MODEL` | Model identifier to use with the API                     | `codestral:latest` or `mistral:latest`           |
 | `LOCAL_LLM_URI`    | Local endpoint URL for the OpenAI-compatible API         | `http://host.docker.internal:11434/v1/`          |
 | `SECRET_KEY`       | Used to encrypt some htttp session variables.            | `mySecretKey4PgAssistant`                        |
+| `LLM_SQL_GUIDELINES`       | An URL pointing on your SQL Guidelines.            | `https://raw.githubusercontent.com/beh74/pgassistant-blog/refs/heads/main/content/post/sql-guide.md`                        |
 
 ### Notes
 
 - `OPENAI_API_KEY` is required by most clients but not used when querying local LLMs like **Ollama**. You can set it to any placeholder (e.g. `nothing`).
 - `OPENAI_API_MODEL` must match the model name loaded in Ollama (e.g. `codestral`, `llama3`, `mistral`, etc.).
 - `LOCAL_LLM_URI` should point to the Ollama server, accessible from inside your Docker container via `host.docker.internal`.
-
+- `LLM_SQL_GUIDELINES` should point to your SQL Guidelines like namings conventions. A markdown format is recommanded.
 ---
 
 # How to build your docker image
