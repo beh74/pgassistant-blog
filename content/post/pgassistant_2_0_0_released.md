@@ -27,6 +27,21 @@ This release is a big step toward making pgAssistant a fully integrable AI assis
 The idea behind this new direction came after inspiring discussions during the [SwissPGDay](https://www.pgday.ch/2025/) and [PGConf Europe](https://wiki.postgresql.org/wiki/PGConf.EU_2025_PostgreSQL_AI_Summit)  events, where I had the chance to present pgAssistant and exchange with many passionate members of the PostgreSQL community.
 This community is incredibly open, supportive, and full of ideas — I highly encourage everyone to join and take part in future events!
 
+If you want to try the new database report API coming with v2.0 :
+```
+curl -X POST https://ov-004f8b.infomaniak.ch/api/v1/report \
+  -H "Content-Type: application/json" \
+  -d '{
+    "db_config": {
+      "db_host": "demo-db",
+      "db_port": 5432,
+      "db_name": "northwind",
+      "db_user": "postgres",
+      "db_password": "demo"
+    }
+  }'
+```
+
 ## New docker image is available on dockerhub
 
 Take a look at DockerHub [image tag](https://hub.docker.com/r/bertrand73/pgassistant/tags)
