@@ -16,7 +16,7 @@ Here is a sample docker-compose.yml file to run pgassistant :
 ```
 services:
   pgassistant:
-    image: bertrand73/pgassistant:1.9.9
+    image: bertrand73/pgassistant:latest
     restart: always
     environment:
       - OPENAI_API_KEY=nothing
