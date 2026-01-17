@@ -1,6 +1,6 @@
 ---
 title: "pgAssistant 2.3 is released !"
-date: 2025-01-17
+date: 2026-01-17
 tags: ["pgAssistant", "Release"]
 draft: false
 ---
