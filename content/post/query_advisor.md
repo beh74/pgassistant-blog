@@ -355,7 +355,7 @@ and therefore prefer a sequential scan.
 
 # How pgAssistant Recommends Indexes
 
-![Index Advisor](/pgassistant-blog/images/query_advisor.png)
+![Index Advisor](/pgassistant-blog/images/index_advisor.png)
 
 pgAssistant does not simply parse SQL queries.
 
