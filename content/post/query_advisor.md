@@ -5,6 +5,7 @@ tags: ["postgresql", "performance", "indexes"]
 draft: false
 ---
 
+![Index Advisor](/pgassistant-blog/images/index_advisor_cover.png)
 
 PostgreSQL index design is often misunderstood.
 
