@@ -1,180 +1,139 @@
 ---
-title: "Welcome to pgAssistant"
-description: "Analyze one PostgreSQL database or prioritize improvements across a fleet of hundreds or thousands."
+title: "pgAssistant — Continuous PostgreSQL Improvement"
+description: "Turn PostgreSQL evidence into a prioritized remediation plan, track what changed, and measure whether the workload improved."
 ---
 
-![logo](images/logo.png)
+![pgAssistant logo](images/logo.png)
 
-**pgAssistant** helps developers, DBAs, and operations teams understand and improve PostgreSQL databases.
+# A continuous PostgreSQL improvement platform
 
-It can be used interactively to analyze a single database, or combined with **pgAssistant Collector** and **pgAssistant Grafana** to identify and prioritize actions across hundreds or thousands of databases.
+**pgAssistant** turns PostgreSQL evidence into prioritized action. Analyze a database and its workload, decide what to improve, organize the work, collect new evidence, and measure the result.
 
-> **Analyze one PostgreSQL database. Prioritize a fleet of thousands.**
+Use it for one database or extend the same approach across a fleet of hundreds or thousands.
+
+> **Observe. Diagnose. Prioritize. Plan. Implement. Measure. Repeat.**
 
 ---
 
-## One Database or an Entire PostgreSQL Fleet
+## The continuous improvement loop
 
-### Analyze a Single Database
+pgAssistant connects diagnosis, implementation planning, and historical evidence in one repeatable process:
 
-The main **pgAssistant** application provides an interactive interface for:
+```text
+Observe → Diagnose → Prioritize → Plan → Implement → Collect again → Measure
+   ↑                                                                  │
+   └────────────────────────── Repeat continuously ────────────────────┘
+```
 
-- understanding a database schema and its workload;
-- detecting structural and configuration issues;
-- analyzing expensive SQL queries and execution plans;
-- identifying indexing opportunities;
-- reviewing autovacuum, statistics, and maintenance;
-- producing prioritized recommendations and an implementation plan.
+1. **Observe** — collect repeatable database, workload, and environment evidence.
+2. **Diagnose** — use deterministic advisors to identify SQL, schema, index, configuration, and maintenance issues.
+3. **Prioritize** — rank findings by urgency, confidence, effort, and workload impact.
+4. **Plan** — turn related recommendations into ordered work packages owned by DEV, OPS, or both.
+5. **Implement** — apply each change with its dependencies, SQL guidance, and maintenance requirements in view.
+6. **Measure** — compare the next collection with the previous one to understand what changed and whether the workload improved.
 
-This is useful for a developer investigating one application database, as well as for a DBA performing a detailed PostgreSQL assessment.
+pgAssistant is not a real-time monitoring or alerting system. Monitoring tells you what is happening now; pgAssistant helps you decide what to improve next and verify the result over time.
 
-### Manage Hundreds or Thousands of Databases
+---
 
-For larger PostgreSQL estates, two companion projects automate and centralize pgAssistant analyses:
+## From findings to an Executive Plan
+
+The **Global, Index, Parameter, Autovacuum, and Fillfactor advisors** produce reproducible findings from PostgreSQL catalogs, statistics, settings, and execution plans.
+
+The **Executive Plan** consolidates those findings into an ordered remediation plan instead of leaving teams with a disconnected list of recommendations. It provides:
+
+- priorities, dependencies, confidence, impact, and estimated effort;
+- work packages assigned to DEV, OPS, or DEV/OPS;
+- implementation guidance, maintenance constraints, and executable SQL;
+- PDF reports filtered for development and operations audiences;
+- historical comparison of new, persistent, and no-longer-detected findings.
+
+A finding that disappears from a later collection is reported as no longer detected—not automatically treated as proof that a change was deployed.
+
+---
+
+## Measure results with Workload Insights
+
+Introduced in **pgAssistant 3.8.0**, **Workload Insights** compares consecutive Collector measurements and shows:
+
+- execution time, call volume, and query-mix changes;
+- the queries driving the largest gains or regressions;
+- changes in PostgreSQL versions and important tuning settings;
+- the evolution of Executive Plan recommendations;
+- workload impact before and after an intervention.
+
+This historical view closes the improvement loop: teams can connect a decision to observed PostgreSQL changes, evaluate the outcome, and choose the next action using fresh evidence.
+
+[Read what is new in pgAssistant 3.8.0](post/pgassistant_3_8_0_released/)
+
+---
+
+## One database or a PostgreSQL fleet
+
+### One database
+
+Use the pgAssistant web interface for a deep analysis of:
+
+- SQL statements and execution plans;
+- workload impact and expensive-query ranking;
+- schema design, relationships, indexes, and table health;
+- PostgreSQL configuration and pgTune baselines;
+- autovacuum, statistics, bloat indicators, and maintenance;
+- prioritized remediation for developers and DBAs.
+
+### A fleet of hundreds or thousands
+
+Two companion projects automate and centralize the same improvement process:
 
 | Project | Role |
 | --- | --- |
-| **[pgAssistant Collector](https://github.com/beh74/pgassistant-collector)** | Runs selected pgAssistant analyses across declared databases and stores historical results in a central PostgreSQL repository. |
-| **[pgAssistant Grafana](https://github.com/beh74/pgassistant-grafana)** | Provides fleet-wide dashboards showing priorities, trends, advisor findings, and the databases requiring attention first. |
-
-Together, the three projects make it possible to:
-
-1. collect consistent diagnostics across applications and environments;
-2. identify which databases require action first;
-3. drill down from a fleet overview to a database, query, or recommendation;
-4. assign remediation work to development and operations teams;
-5. track whether priority findings are resolved over time.
+| **[pgAssistant Collector](https://github.com/beh74/pgassistant-collector)** | Runs selected jobs across declared databases and stores historical workload, environment, and advisor snapshots in a central PostgreSQL repository. |
+| **[pgAssistant Grafana](https://github.com/beh74/pgassistant-grafana)** | Displays fleet-wide priorities and trends so teams can identify the databases, queries, and recommendations requiring attention first. |
 
 ```text
-PostgreSQL fleet → Collector → pgAssistant analyses → Central repository → Grafana
-                                      ↓
-                         Diagnosis and action plan
+PostgreSQL fleet → Collector → Repository → pgAssistant → Executive Plan
+       ↑                           ↓             ↓              ↓
+       └──────────── Collect again ← Measure results ← Implement changes
+                                   ↓
+                          Grafana fleet overview
 ```
 
 ---
 
-## Deterministic First, AI When Needed
+## Deterministic first, AI when useful
 
-pgAssistant is built on a simple principle:
+The core pgAssistant advisors are deterministic and work without an LLM. They query PostgreSQL system catalogs, statistics, configuration, and execution plans to produce reproducible recommendations.
 
-> **Start with deterministic database analysis.  
-> Use AI only when it adds value.**
-
-### Deterministic Analysis
-
-pgAssistant queries PostgreSQL system catalogs and statistics to produce **reliable and reproducible diagnostics**.
-
-The **Global Advisor** provides:
-
-- one-click database analysis;
-- recommendations ranked by priority, confidence, impact, and effort;
-- detection of missing indexes on foreign keys;
-- datatype inconsistencies;
-- redundant, invalid, or unused indexes;
-- tables without primary keys;
-- stale statistics and maintenance issues;
-- table bloat and dead-tuple pressure;
-- long-running transactions;
-- unsupported PostgreSQL versions and available upgrades;
-- important configuration issues.
-
-The **Executive Plan** consolidates findings from the Global, Index, Parameter, Autovacuum, and Fillfactor advisors into ordered work packages for DEV and OPS teams.
-
-No AI is required for these analyses.
-
----
-
-## Query and Workload Analysis
-
-pgAssistant can analyze an individual SQL statement or the workload collected by `pg_stat_statements`:
-
-- `EXPLAIN ANALYZE` insights;
-- expensive-query ranking;
-- join, scan, sort, and aggregate analysis;
-- index recommendations;
-- row-estimation and statistics issues;
-- query rewrite opportunities;
-- PostgreSQL parameter recommendations;
-- relational visualization of the tables involved.
-
-> `EXPLAIN ANALYZE` executes the statement. Review queries carefully and use a suitable database role.
-
----
-
-## Optional AI Assistance
-
-AI is an augmentation layer, not a dependency.
-
-When an LLM is configured, pgAssistant can provide:
+AI is an optional augmentation layer for tasks such as:
 
 - SQL rewrite suggestions;
-- contextual explanations of execution plans;
-- advanced optimization reasoning;
-- database-design feedback based on schema and workload;
+- contextual execution-plan explanations;
+- schema-design feedback;
 - naming convention and RFC checks.
 
 **pgAssistant remains fully usable without AI.**
 
 ---
 
-## Try It Online
+## Try pgAssistant
 
-Database analysis interface:  
-[https://ov-004f8b.infomaniak.ch/](https://ov-004f8b.infomaniak.ch/)
-
-Demo connection:
+Open the [pgAssistant live demo](https://ov-004f8b.infomaniak.ch/) and use:
 
 ```text
 postgresql://postgres:demo@demo-db:5432/northwind
 ```
 
-Fleet dashboards:  
-[pgAssistant Grafana demo](https://ov-004f8b.infomaniak.ch/grafana/)
+Explore fleet-wide priorities in the [pgAssistant Grafana demo](https://ov-004f8b.infomaniak.ch/grafana/). Credentials are documented in the [pgAssistant Grafana repository](https://github.com/beh74/pgassistant-grafana).
 
-The Grafana demo credentials are documented in the  
-[pgAssistant Grafana repository](https://github.com/beh74/pgassistant-grafana).
-
-> The public demo does not use an LLM.  
-> Do not provide personal API keys.
+> The demo database is reset daily. AI features are disabled; do not enter personal API keys.
 
 ---
 
-## Why pgAssistant?
+## Get started
 
-- Open source and built specifically for PostgreSQL;
-- useful for both a single database and a large PostgreSQL estate;
-- deterministic and reproducible analysis;
-- optional AI assistance;
-- recommendations prioritized by impact and effort;
-- focused on actionable improvements, not just metrics;
-- implementation planning for development and operations teams;
-- historical fleet-level visibility with Collector and Grafana.
-
-Explore the documentation, blog posts, and project repositories:
-
-- [pgAssistant Community](https://github.com/beh74/pgassistant-community)
-- [pgAssistant Collector](https://github.com/beh74/pgassistant-collector)
-- [pgAssistant Grafana](https://github.com/beh74/pgassistant-grafana)
-
----
-
-## Before You Begin
-
-- [Enable pg_stat_statements](doc/pg_stat_statments)
-- [Quick start with Docker](doc/startup_docker)
-
----
-
-## Monitoring and pgAssistant
-
-pgAssistant is not intended to replace a real-time monitoring and alerting platform.
-
-For PostgreSQL observability, **[pgWatch](https://github.com/cybertec-postgresql/pgwatch)** provides:
-
-- real-time metric collection;
-- Grafana dashboards;
-- Prometheus integration;
-- visualization and alerting.
-
-> **Monitoring shows what is happening.**  
-> **pgAssistant helps decide what to improve next and how to implement it.**
+- [Quick start with Docker](doc/startup_docker/)
+- [Install from Python sources](doc/startup_python/)
+- [Enable pg_stat_statements](doc/pg_stat_statments/)
+- [Explore pgAssistant Community](https://github.com/beh74/pgassistant-community)
+- [Read the latest release notes](post/pgassistant_3_8_0_released/)
+- [Manage a fleet of more than 1,000 PostgreSQL databases](post/managing_1000_postgresql_databases/)

@@ -1,7 +1,7 @@
 
 baseURL = "https://beh74.github.io/pgassistant-blog/"
 languageCode = "en-us"
-title = "pgAssistant Blog"
+title = "pgAssistant — Continuous PostgreSQL Improvement"
 theme = "PaperMod"
 pagination.pagerSize = 10
 defaultContentLanguage = "en"
@@ -14,9 +14,9 @@ defaultContentLanguage = "en"
 
 [params]
   env = "production"
-  title = "pgAssistant Blog"
-  description = "Blog about using pgAssistant and PostgreSQL with privacy in mind"
-  keywords = ["PostgreSQL", "LLM", "pgAssistant", "Privacy", "Ollama", "Self-hosting"]
+  title = "pgAssistant — Continuous PostgreSQL Improvement"
+  description = "Documentation and articles for pgAssistant, a continuous PostgreSQL improvement platform"
+  keywords = ["PostgreSQL", "pgAssistant", "Performance", "Database optimization", "Workload analysis", "Executive Plan", "Workload Insights"]
   author = "beh74"
   ShowShareButtons = true
   ShowReadingTime = true
@@ -54,5 +54,4 @@ defaultContentLanguage = "en"
   name = "Search"
   url = "search/"
   weight = 1
-
 
