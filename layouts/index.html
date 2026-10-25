@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="home-hero">
+  <div class="hero-copy">
+    <p class="eyebrow">POSTGRESQL · CONTINUOUS IMPROVEMENT</p>
+    <h1>Better databases.<br><span>One improvement at a time.</span></h1>
+    <p class="hero-description">Turn PostgreSQL evidence into a prioritized plan. Understand your workload, make the right changes, and measure the results.</p>
+    <div class="hero-actions">
+      <a class="button-primary" href="{{ "doc/startup_docker/" | relURL }}">Get started <span aria-hidden="true">→</span></a>
+      <a class="button-secondary" href="https://github.com/beh74/pgassistant-community">Explore on GitHub ↗</a>
+    </div>
+  </div>
+  <div class="ecosystem-visual">
+    <img id="ecosystem-animation" src="{{ "images/pgassistant-ecosystem.gif" | relURL }}" width="960" height="650" alt="The pgAssistant ecosystem: pgassistant, pg-assistant-collector, pgassistant-grafana, and the newly released pg-assistant-autotune.">
+    <img id="ecosystem-still" src="{{ "images/pgassistant-ecosystem.png" | relURL }}" width="960" height="650" alt="The pgAssistant ecosystem: pgassistant, pg-assistant-collector, pgassistant-grafana, and the newly released pg-assistant-autotune." hidden>
+    <button id="ecosystem-toggle" type="button" aria-pressed="false">Stop animation</button>
+  </div>
+</section>
+<section class="latest-section" aria-labelledby="latest-heading">
+  <div class="section-heading"><div><p class="eyebrow">FROM THE BLOG</p><h2 id="latest-heading">Ideas, guides & releases</h2></div><a class="read-more" href="{{ "post/" | relURL }}">All articles →</a></div>
+  <div class="article-grid">{{ range first 3 (where site.RegularPages "Section" "post") }}{{ partial "article-card.html" . }}{{ end }}</div>
+</section>
+<section class="platform-content post-content" aria-label="About pgAssistant">{{ .Content }}</section>
+{{ end }}

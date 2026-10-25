@@ -36,7 +36,7 @@ pgAssistant complements real-time monitoring platforms: it uses periodic databas
 ## Built With
 
 - [Hugo](https://gohugo.io/) — Static site generator
-- [PaperMod](https://github.com/adityatelange/hugo-PaperMod) — Clean, responsive Hugo theme
+- [PaperMod](https://github.com/adityatelange/hugo-PaperMod) — Base Hugo theme, with a custom appearance inspired by the Apache Airflow website
 - [GitHub Pages](https://pages.github.com/) — Hosting
 - [GitHub Actions](https://github.com/features/actions) — CI/CD for deployment
 
@@ -61,3 +61,7 @@ Each blog post provides a “Suggest Changes” link that takes you directly to 
 
 The site is automatically deployed to GitHub Pages using a GitHub Actions workflow.
 Any push to the main branch triggers a rebuild and redeploy.
+
+## Appearance
+
+Project templates in `layouts/` and styles in `assets/css/extended/airflow-inspired.css` customize PaperMod without modifying the theme submodule. The homepage includes a product introduction and the three latest posts; the complete homepage content remains below. Article and documentation lists use responsive cards. The theme toggle supports both light and dark appearances.

@@ -1,0 +1,15 @@
+{{ define "main" }}
+<header class="page-header listing-heading">
+  {{ partial "breadcrumbs.html" . }}
+  <p class="eyebrow">PGASSISTANT {{ if eq .Section "doc" }}GUIDES{{ else }}JOURNAL{{ end }}</p>
+  <h1>{{ if eq .Section "post" }}Blog{{ else }}{{ .Title }}{{ end }}</h1>
+  {{ with .Description }}<p class="post-description">{{ . }}</p>{{ end }}
+</header>
+{{ with .Content }}<div class="post-content">{{ . }}</div>{{ end }}
+{{ if eq .Section "post" }}
+<nav class="topic-links" aria-label="Browse articles by topic"><a href="{{ "post/" | relURL }}">All articles</a>{{ range first 8 site.Taxonomies.tags.ByCount }}<a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>{{ end }}</nav>
+{{ end }}
+{{ $paginator := .Paginate (union .RegularPages .Sections) }}
+<div class="article-grid">{{ range $paginator.Pages }}{{ partial "article-card.html" . }}{{ end }}</div>
+{{ if gt $paginator.TotalPages 1 }}<nav class="pagination page-footer" aria-label="Pagination">{{ if $paginator.HasPrev }}<a class="prev" href="{{ $paginator.Prev.URL }}">← Previous</a>{{ end }}{{ if $paginator.HasNext }}<a class="next" href="{{ $paginator.Next.URL }}">Next →</a>{{ end }}</nav>{{ end }}
+{{ end }}

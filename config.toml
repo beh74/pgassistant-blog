@@ -25,10 +25,15 @@ defaultContentLanguage = "en"
   ShowPostNavLinks = true
   ShowToc = true
   enableSearch = true
-  defaultTheme = "auto"
+  defaultTheme = "light"
   disableThemeToggle = false
   googleAnalytics = ""
 
+
+[params.label]
+  text = "pgAssistant"
+  icon = "images/logo.png"
+  iconHeight = 36
 
 [params.editPost]
   URL = "https://github.com/beh74/pgassistant-blog/tree/main/content"

@@ -1,0 +1,18 @@
+<script>
+(() => {
+  const animated = document.getElementById('ecosystem-animation');
+  const still = document.getElementById('ecosystem-still');
+  const button = document.getElementById('ecosystem-toggle');
+  if (!animated || !still || !button) return;
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const setStopped = stopped => {
+    animated.hidden = stopped;
+    still.hidden = !stopped;
+    button.textContent = stopped ? 'Play animation' : 'Stop animation';
+    button.setAttribute('aria-pressed', String(stopped));
+  };
+  setStopped(preference.matches);
+  preference.addEventListener('change', event => setStopped(event.matches));
+  button.addEventListener('click', () => setStopped(!animated.hidden));
+})();
+</script>

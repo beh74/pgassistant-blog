@@ -1,0 +1,6 @@
+<article class="article-card">
+  <div class="card-meta">{{ .Date.Format "Jan 02, 2006" }} · {{ .ReadingTime }} min read</div>
+  <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+  <p>{{ (.Description | default (.Summary | plainify)) | truncate 190 }}</p>
+  <a class="read-more" href="{{ .RelPermalink }}">Read more <span aria-hidden="true">→</span><span class="sr-only">: {{ .Title }}</span></a>
+</article>

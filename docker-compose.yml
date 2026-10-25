@@ -5,6 +5,7 @@ services:
     image: hugomods/hugo:debian-nightly
     command:
       - server
+      - --renderToMemory
       - --bind=0.0.0.0
       - --baseURL=http://localhost
       - -e
