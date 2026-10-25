@@ -92,3 +92,15 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
   .article-toc details[open] summary { margin-bottom: 18px; }
 }
 @media (max-width: 600px) { .post-single { margin-top: 20px; } .article-layout > .post-content { font-size: 17px; } .post-single .post-description { font-size: 18px; } }
+.tools-section { padding: 44px 0 56px; border-top: 1px solid var(--border); }
+.tools-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.tool-card { display: flex; flex-direction: column; min-width: 0; padding: 26px 23px 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--entry); }
+.tool-icon { color: var(--accent); width: 58px; height: 58px; display: grid; place-items: center; background: var(--soft); border-radius: 12px; margin-bottom: 22px; }
+.tool-card h3 { font-size: 23px; letter-spacing: -.5px; }
+.tool-card > p { color: var(--secondary); font-size: 15px; line-height: 1.75; margin: 14px 0 25px; }
+.tool-links { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+.tool-links .read-more { font-size: 12px; }
+.github-link { color: var(--accent); display: grid; place-items: center; padding: 7px; flex-shrink: 0; border-radius: 50%; }
+.github-link:hover { background: var(--soft); }
+@media (max-width: 1000px) { .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 550px) { .tools-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,24 @@
+- name: Community
+  icon: database
+  description: Analyze PostgreSQL workloads and turn advisor findings into a prioritized improvement plan.
+  url: doc/startup_docker/
+  linkLabel: Get started
+  github: https://github.com/beh74/pgassistant-community
+- name: Collector
+  icon: collect
+  description: Collect database diagnostics and recommendation snapshots across your fleet, with history in one place.
+  url: post/managing_1000_postgresql_databases/
+  linkLabel: Explore fleet collection
+  github: https://github.com/beh74/pgassistant-collector
+- name: Grafana
+  icon: chart
+  description: Visualize fleet priorities, workload trends, and the evolution of Executive Plan recommendations.
+  url: https://ov-004f8b.infomaniak.ch/grafana/
+  linkLabel: Open the demo
+  github: https://github.com/beh74/pgassistant-grafana
+- name: Auto-Tune
+  icon: tune
+  description: Apply selected recommendations using YAML policies, dry-run previews, and tracked execution.
+  url: post/pgassistant_autotune_released/
+  linkLabel: Discover Auto-Tune
+  github: https://github.com/beh74/pgassistant-autotune

@@ -15,6 +15,7 @@
     <button id="ecosystem-toggle" type="button" aria-pressed="false">Stop animation</button>
   </div>
 </section>
+{{ partial "tools.html" . }}
 <section class="latest-section" aria-labelledby="latest-heading">
   <div class="section-heading"><div><p class="eyebrow">FROM THE BLOG</p><h2 id="latest-heading">Ideas, guides & releases</h2></div><a class="read-more" href="{{ "post/" | relURL }}">All articles →</a></div>
   <div class="article-grid">{{ range first 3 (where site.RegularPages "Section" "post") }}{{ partial "article-card.html" . }}{{ end }}</div>
