@@ -10,9 +10,26 @@
     </div>
   </div>
   <div class="ecosystem-visual">
-    <img id="ecosystem-animation" src="{{ "images/pgassistant-ecosystem.gif" | relURL }}" width="960" height="650" alt="The pgAssistant ecosystem: pgassistant, pg-assistant-collector, pgassistant-grafana, and the newly released pg-assistant-autotune.">
-    <img id="ecosystem-still" src="{{ "images/pgassistant-ecosystem.png" | relURL }}" width="960" height="650" alt="The pgAssistant ecosystem: pgassistant, pg-assistant-collector, pgassistant-grafana, and the newly released pg-assistant-autotune." hidden>
-    <button id="ecosystem-toggle" type="button" aria-pressed="false">Stop animation</button>
+    <div class="loop-panel" id="improvement-animation">
+      <p class="eyebrow">CONTINUOUS IMPROVEMENT</p>
+      <h2>Every change starts<br>with evidence.</h2>
+      <p class="loop-intro">A repeatable path to better PostgreSQL.</p>
+      <div class="loop-diagram">
+        <svg class="loop-track" viewBox="0 0 400 280" fill="none" aria-hidden="true">
+          <rect x="55" y="45" width="290" height="190" rx="52" pathLength="100" />
+          <rect class="loop-tracer" x="55" y="45" width="290" height="190" rx="52" pathLength="100" />
+        </svg>
+        <ol class="loop-steps">
+          <li><span class="step-number">01</span><strong>Observe</strong><small>Collect evidence</small></li>
+          <li><span class="step-number">02</span><strong>Analyze</strong><small>Prioritize changes</small></li>
+          <li><span class="step-number">03</span><strong>Act</strong><small>Apply your plan</small></li>
+          <li><span class="step-number">04</span><strong>Measure</strong><small>Compare results</small></li>
+        </ol>
+        <span class="loop-center" aria-hidden="true">Improve.<br>Repeat.</span>
+      </div>
+      <p class="loop-caption">Community · Collector · Grafana · Auto-Tune</p>
+    </div>
+    <button id="ecosystem-toggle" type="button" aria-controls="improvement-animation" aria-pressed="false" hidden>Stop animation</button>
   </div>
 </section>
 {{ partial "tools.html" . }}

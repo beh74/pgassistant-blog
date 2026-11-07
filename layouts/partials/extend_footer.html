@@ -1,18 +1,27 @@
 <script>
 (() => {
-  const animated = document.getElementById('ecosystem-animation');
-  const still = document.getElementById('ecosystem-still');
+  const panel = document.getElementById('improvement-animation');
   const button = document.getElementById('ecosystem-toggle');
-  if (!animated || !still || !button) return;
+  if (!panel || !button) return;
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const setStopped = stopped => {
-    animated.hidden = stopped;
-    still.hidden = !stopped;
+    panel.classList.toggle('is-paused', stopped);
     button.textContent = stopped ? 'Play animation' : 'Stop animation';
     button.setAttribute('aria-pressed', String(stopped));
   };
+  button.hidden = false;
   setStopped(preference.matches);
   preference.addEventListener('change', event => setStopped(event.matches));
-  button.addEventListener('click', () => setStopped(!animated.hidden));
+  button.addEventListener('click', () => setStopped(button.getAttribute('aria-pressed') !== 'true'));
+  const grid = document.querySelector('.tools-grid');
+  if (grid && 'IntersectionObserver' in window && !preference.matches) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        grid.classList.add('reveal-tools');
+        observer.disconnect();
+      }
+    }, { threshold: 0.12 });
+    observer.observe(grid);
+  }
 })();
 </script>

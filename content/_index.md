@@ -3,7 +3,7 @@ title: "pgAssistant — Continuous PostgreSQL Improvement"
 description: "Turn PostgreSQL evidence into a prioritized remediation plan, track what changed, and measure whether the workload improved."
 ---
 
-![pgAssistant logo](images/logo.png)
+{{< brand-symbol >}}
 
 # A continuous PostgreSQL improvement platform
 
@@ -19,18 +19,7 @@ Use it for one database or extend the same approach across a fleet of hundreds o
 
 pgAssistant connects diagnosis, implementation planning, and historical evidence in one repeatable process:
 
-```text
-Observe → Diagnose → Prioritize → Plan → Implement → Collect again → Measure
-   ↑                                                                  │
-   └────────────────────────── Repeat continuously ────────────────────┘
-```
-
-1. **Observe** — collect repeatable database, workload, and environment evidence.
-2. **Diagnose** — use deterministic advisors to identify SQL, schema, index, configuration, and maintenance issues.
-3. **Prioritize** — rank findings by urgency, confidence, effort, and workload impact.
-4. **Plan** — turn related recommendations into ordered work packages owned by DEV, OPS, or both.
-5. **Implement** — apply each change with its dependencies, SQL guidance, and maintenance requirements in view.
-6. **Measure** — compare the next collection with the previous one to understand what changed and whether the workload improved.
+{{< improvement-journey >}}
 
 pgAssistant is not a real-time monitoring or alerting system. Monitoring tells you what is happening now; pgAssistant helps you decide what to improve next and verify the result over time.
 

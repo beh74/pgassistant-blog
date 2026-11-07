@@ -1,9 +1,13 @@
 <section class="tools-section" aria-labelledby="tools-heading">
   <div class="section-heading"><div><p class="eyebrow">THE PGASSISTANT ECOSYSTEM</p><h2 id="tools-heading">Four tools. A continuous improvement loop.</h2></div></div>
   <div class="tools-grid">
-    {{ range site.Data.tools }}
-    <article class="tool-card">
-      <div class="tool-icon">{{ partial "tool-icon.html" .icon }}</div>
+    {{ range $index, $tool := site.Data.tools }}
+    <article class="tool-card tool-card--{{ .icon }}">
+      <div class="tool-card-top">
+        <div class="tool-icon">{{ partial "tool-icon.html" .icon }}</div>
+        <span class="tool-stage">{{ printf "%02d" (add $index 1) }} <span aria-hidden="true">/</span> 04</span>
+      </div>
+      <p class="tool-purpose">{{ if eq .icon "database" }}Understand & prioritize{{ else if eq .icon "collect" }}Collect & centralize{{ else if eq .icon "chart" }}Visualize & measure{{ else }}Apply & improve{{ end }}</p>
       <h3><a href="{{ .url | relURL }}">{{ .name }}</a></h3>
       <p>{{ .description }}</p>
       <div class="tool-links">

@@ -1,0 +1,5 @@
+<div class="docker-projects">
+{{ range site.Data.tools }}
+<div class="docker-project tool-card--{{ .icon }}"><div class="tool-icon">{{ partial "tool-icon.html" .icon }}</div><h3>{{ .name }}</h3><p>{{ if eq .icon "database" }}Database analysis and prioritized plans.{{ else if eq .icon "collect" }}Collection service and PostgreSQL history repository.{{ else if eq .icon "chart" }}Provisioned dashboards connected to your Collector repository.{{ else }}API, worker, migrations, and an execution-history database.{{ end }}</p><a href="{{ .github }}/blob/main/{{ if eq .icon "database" }}docker-compose/docker-compose.yml{{ else if eq .icon "tune" }}compose.yaml{{ else }}docker-compose.yml{{ end }}">View Compose <span aria-hidden="true">↗</span></a><a class="docker-readme" href="{{ .github }}#readme">Setup instructions →</a></div>
+{{ end }}
+</div>
